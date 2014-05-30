@@ -159,8 +159,8 @@ module Backup
         "mkdir -p #{ temp_dir } ; " +
         # Creation phase
         "#{ utility(:innobackupex) } #{ credential_options } " +
-        "#{ connectivity_options } #{ user_options }" +
-        "#{ temp_dir } ; " +
+        "#{ connectivity_options } #{ user_options } " +
+        "--no-timestamp #{ temp_dir } ; " +
         # Log applying phase (prepare for restore)
         "#{ utility(:innobackupex) } --apply-log #{ temp_dir } " +
         "#{ user_prepare_options } ; " +
