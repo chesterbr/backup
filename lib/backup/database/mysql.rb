@@ -176,7 +176,7 @@ module Backup
 
         "sudo -s -u #{ sudo_user } -- <<END_OF_SUDO\n" +
         "#{command_block}\n" +
-        "END_OF_SUDO"
+        "END_OF_SUDO\n"
       end
 
       def temp_dir

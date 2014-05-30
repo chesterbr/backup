@@ -397,7 +397,7 @@ describe Database::MySQL do
           expect( db.send(:sudo_option, 'foo') ).to eq (
             "sudo -s -u some_user -- <<END_OF_SUDO\n" +
             "foo\n" +
-            "END_OF_SUDO"
+            "END_OF_SUDO\n"
           )
         end
       end # context 'with sudo_user' do
