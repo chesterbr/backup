@@ -410,11 +410,12 @@ describe Database::MySQL do
       db.stubs(:dump_path).returns('/tmp')
 
       expect( db.send(:innobackupex).split.join(" ") ).to eq(
+        "rm -Rf /tmp/MySQL.bkpdir ; " +
         "mkdir -p /tmp/MySQL.bkpdir ; " +
         "innobackupex --no-timestamp /tmp/MySQL.bkpdir ; " +
         "innobackupex --apply-log /tmp/MySQL.bkpdir ; " +
         "tar --remove-files -cf - /tmp/MySQL.bkpdir ; " +
-        "rm -Rf /tmp/MySQL.bkpdir;"
+        "rm -Rf /tmp/MySQL.bkpdir ;"
       )
     end
   end

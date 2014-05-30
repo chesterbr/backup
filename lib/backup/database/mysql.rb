@@ -156,6 +156,7 @@ module Backup
 
       def innobackupex
         # Preparation
+        "rm -Rf #{ temp_dir } ; " +
         "mkdir -p #{ temp_dir } ; " +
         # Creation phase
         "#{ utility(:innobackupex) } #{ credential_options } " +
@@ -167,7 +168,7 @@ module Backup
         # Move files to tar-ed stream on stdout
         "#{ utility(:tar) } --remove-files -cf - #{ temp_dir } ; " +
         # Cleanup
-        "rm -Rf #{ temp_dir };"
+        "rm -Rf #{ temp_dir } ;"
         # Close optional sudo-ing
       end
 
