@@ -412,8 +412,7 @@ describe Database::MySQL do
       expect( db.send(:innobackupex).split.join(" ") ).to eq(
         "innobackupex --no-timestamp /tmp/MySQL.bkpdir ; " +
         "innobackupex --apply-log /tmp/MySQL.bkpdir ; " +
-        "tar --remove-files -cf - -C /tmp MySQL.bkpdir ; " +
-        "rm -Rf /tmp/MySQL.bkpdir ;"
+        "tar --remove-files -cf - -C /tmp MySQL.bkpdir"
       )
     end
   end

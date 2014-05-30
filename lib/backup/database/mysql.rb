@@ -164,10 +164,7 @@ module Backup
         "#{ user_prepare_options } ; " +
         # Move files to tar-ed stream on stdout
         "#{ utility(:tar) } --remove-files -cf -  " +
-        "-C #{ File.dirname(temp_dir) } #{ File.basename(temp_dir) } ; " +
-        # Cleanup
-        "rm -Rf #{ temp_dir } ;"
-        # Close optional sudo-ing
+        "-C #{ File.dirname(temp_dir) } #{ File.basename(temp_dir) }"
       end
 
       def sudo_option(command_block)
