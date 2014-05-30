@@ -157,7 +157,6 @@ module Backup
       def innobackupex
         # Preparation
         "rm -Rf #{ temp_dir } ; " +
-        "mkdir -p #{ temp_dir } ; " +
         # Creation phase
         "#{ utility(:innobackupex) } #{ credential_options } " +
         "#{ connectivity_options } #{ user_options } " +
