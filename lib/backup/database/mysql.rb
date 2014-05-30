@@ -165,8 +165,8 @@ module Backup
         "#{ utility(:innobackupex) } --apply-log #{ temp_dir } " +
         "#{ user_prepare_options } ; " +
         # Move files to tar-ed stream on stdout
-        "#{ utility(:tar) } -C #{ File.dirname(temp_dir) } " +
-        "--remove-files -cf - #{ temp_dir } ; " +
+        "#{ utility(:tar) } --remove-files -cf -  " +
+        "-C #{ File.dirname(temp_dir) } #{ File.basename(temp_dir) } ; " +
         # Cleanup
         "rm -Rf #{ temp_dir } ;"
         # Close optional sudo-ing
