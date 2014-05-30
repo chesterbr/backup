@@ -413,7 +413,7 @@ describe Database::MySQL do
         "rm -Rf /tmp/MySQL.bkpdir ; " +
         "innobackupex --no-timestamp /tmp/MySQL.bkpdir ; " +
         "innobackupex --apply-log /tmp/MySQL.bkpdir ; " +
-        "tar --remove-files -cf - /tmp/MySQL.bkpdir ; " +
+        "tar -C /tmp --remove-files -cf - /tmp/MySQL.bkpdir ; " +
         "rm -Rf /tmp/MySQL.bkpdir ;"
       )
     end
