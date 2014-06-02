@@ -50,6 +50,10 @@ module Backup
       # If set the backup engine command block is executed as the given user
       attr_accessor :sudo_user
 
+      ##
+      # If set, do not suppress innobackupdb output (useful for debugging)
+      attr_accessor :verbose
+
       def initialize(model, database_id = nil, &block)
         super
         instance_eval(&block) if block_given?
@@ -158,10 +162,10 @@ module Backup
         # Creation phase
         "#{ utility(:innobackupex) } #{ credential_options } " +
         "#{ connectivity_options } #{ user_options } " +
-        "--no-timestamp #{ temp_dir } ; " +
+        "--no-timestamp #{ temp_dir } #{ quiet_option } && " +
         # Log applying phase (prepare for restore)
         "#{ utility(:innobackupex) } --apply-log #{ temp_dir } " +
-        "#{ user_prepare_options } ; " +
+        "#{ user_prepare_options }  #{ quiet_option } && " +
         # Move files to tar-ed stream on stdout
         "#{ utility(:tar) } --remove-files -cf -  " +
         "-C #{ File.dirname(temp_dir) } #{ File.basename(temp_dir) }"
@@ -173,6 +177,10 @@ module Backup
         "sudo -s -u #{ sudo_user } -- <<END_OF_SUDO\n" +
         "#{command_block}\n" +
         "END_OF_SUDO\n"
+      end
+
+      def quiet_option
+        verbose ? "" : " > /dev/null "
       end
 
       def temp_dir

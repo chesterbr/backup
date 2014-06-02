@@ -68,6 +68,7 @@ describe Database::MySQL do
       expect( db.prepare_options    ).to eq 'my_prepare_options'
       expect( db.sudo_user          ).to eq 'my_sudo_user'
       expect( db.backup_engine      ).to eq 'my_backup_engine'
+      expect( db.verbose            ).to be_false
     end
   end # describe '#initialize'
 
@@ -406,14 +407,31 @@ describe Database::MySQL do
   end # describe 'backup engine option methods'
 
   describe '#innobackupex' do
-    it 'builds command to create backup, prepare for restore and tar to stdout' do
+    before do
       db.stubs(:dump_path).returns('/tmp')
+    end
+
+    it 'builds command to create backup, prepare for restore and tar to stdout' do
 
       expect( db.send(:innobackupex).split.join(" ") ).to eq(
-        "innobackupex --no-timestamp /tmp/MySQL.bkpdir ; " +
-        "innobackupex --apply-log /tmp/MySQL.bkpdir ; " +
+        "innobackupex --no-timestamp /tmp/MySQL.bkpdir > /dev/null && " +
+        "innobackupex --apply-log /tmp/MySQL.bkpdir > /dev/null && " +
         "tar --remove-files -cf - -C /tmp MySQL.bkpdir"
       )
+    end
+
+    context "with verbose option enabled" do
+      before do
+        db.verbose = true
+      end
+
+      it "does not suppress innobackupex STDOUT" do
+        expect( db.send(:innobackupex).split.join(" ") ).to eq(
+          "innobackupex --no-timestamp /tmp/MySQL.bkpdir && " +
+          "innobackupex --apply-log /tmp/MySQL.bkpdir && " +
+          "tar --remove-files -cf - -C /tmp MySQL.bkpdir"
+        )
+      end
     end
   end
 
