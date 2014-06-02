@@ -180,7 +180,7 @@ module Backup
       end
 
       def quiet_option
-        verbose ? "" : " > /dev/null "
+        verbose ? "" : " 2> /dev/null "
       end
 
       def temp_dir

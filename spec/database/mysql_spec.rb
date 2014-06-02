@@ -414,8 +414,8 @@ describe Database::MySQL do
     it 'builds command to create backup, prepare for restore and tar to stdout' do
 
       expect( db.send(:innobackupex).split.join(" ") ).to eq(
-        "innobackupex --no-timestamp /tmp/MySQL.bkpdir > /dev/null && " +
-        "innobackupex --apply-log /tmp/MySQL.bkpdir > /dev/null && " +
+        "innobackupex --no-timestamp /tmp/MySQL.bkpdir 2> /dev/null && " +
+        "innobackupex --apply-log /tmp/MySQL.bkpdir 2> /dev/null && " +
         "tar --remove-files -cf - -C /tmp MySQL.bkpdir"
       )
     end
